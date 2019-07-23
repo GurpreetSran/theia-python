@@ -228,7 +228,7 @@ export class SingleFileDownloadHandler extends FileDownloadHandler {
                 await this.prepareDownload(request, response, options);
             } else {
                 const outputRootPath = await this.createTempDir(downloadId);
-                const outputPath = path.join(outputRootPath, `${path.basename(filePath)}.tar`);
+                const outputPath = path.join(outputRootPath, `${path.basename(filePath)}.zip`);
                 await this.archive(filePath, outputPath);
                 options.filePath = outputPath;
                 options.remove = true;
@@ -239,7 +239,6 @@ export class SingleFileDownloadHandler extends FileDownloadHandler {
             this.handleError(response, e, INTERNAL_SERVER_ERROR);
         }
     }
-
 }
 
 @injectable()
@@ -279,7 +278,7 @@ export class MultiFileDownloadHandler extends FileDownloadHandler {
             for (const [rootUri, uris] of (await this.directoryArchiver.findCommonParents(distinctUris)).entries()) {
                 const rootPath = FileUri.fsPath(rootUri);
                 const entries = uris.map(FileUri.fsPath).map(p => path.relative(rootPath, p));
-                const outputPath = path.join(outputRootPath, `${path.basename(rootPath)}.tar`);
+                const outputPath = path.join(outputRootPath, `${path.basename(rootPath)}.zip`);
                 await this.archive(rootPath, outputPath, entries);
                 tarPaths.push(outputPath);
             }
@@ -291,7 +290,7 @@ export class MultiFileDownloadHandler extends FileDownloadHandler {
                 await this.prepareDownload(request, response, options);
             } else {
                 // We need to tar the tars.
-                const outputPath = path.join(outputRootPath, `theia-archive-${Date.now()}.tar`);
+                const outputPath = path.join(outputRootPath, `theia-archive-${Date.now()}.zip`);
                 options.filePath = outputPath;
                 await this.archive(outputRootPath, outputPath, tarPaths.map(p => path.relative(outputRootPath, p)));
                 await this.prepareDownload(request, response, options);
@@ -300,5 +299,4 @@ export class MultiFileDownloadHandler extends FileDownloadHandler {
             this.handleError(response, e, INTERNAL_SERVER_ERROR);
         }
     }
-
 }
