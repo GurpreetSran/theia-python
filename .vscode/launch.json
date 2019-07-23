@@ -52,6 +52,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Backend",
+      "runtimeVersion": "10.15.3",
       "program": "${workspaceRoot}/examples/browser/src-gen/backend/main.js",
       "args": [
         "--hostname=0.0.0.0",
