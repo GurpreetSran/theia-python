@@ -19,7 +19,6 @@ package-backup.json
 .history
 .Trash-*
 packages/plugin/typedoc
-plugins
 gh-pages
 .vscode/ipch
 dev-packages/electron/compile_commands.json
